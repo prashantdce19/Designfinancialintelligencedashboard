@@ -225,32 +225,32 @@ export function MFAnalysis() {
               </FormControl>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              <div className="bg-white/5 rounded-xl p-4 border border-white/5 flex flex-col gap-1">
-                <span className="text-xs text-gray-400 font-medium">Category</span>
-                <span className="text-sm font-semibold text-white">{currentFund.category}</span>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <div className="bg-white/5 rounded-xl p-3 md:p-4 border border-white/5 flex flex-col gap-1">
+                <span className="text-[10px] md:text-xs text-gray-400 font-medium">Category</span>
+                <span className="text-xs md:text-sm font-semibold text-white truncate" title={currentFund.category}>{currentFund.category}</span>
               </div>
-              <div className="bg-white/5 rounded-xl p-4 border border-white/5 flex flex-col gap-1">
-                <span className="text-xs text-gray-400 font-medium">AMC</span>
-                <span className="text-sm font-semibold text-white">{currentFund.amc}</span>
+              <div className="bg-white/5 rounded-xl p-3 md:p-4 border border-white/5 flex flex-col gap-1">
+                <span className="text-[10px] md:text-xs text-gray-400 font-medium">AMC</span>
+                <span className="text-xs md:text-sm font-semibold text-white truncate" title={currentFund.amc}>{currentFund.amc}</span>
               </div>
-              <div className="bg-white/5 rounded-xl p-4 border border-white/5 flex flex-col gap-1">
-                <span className="text-xs text-gray-400 font-medium">ISIN</span>
-                <span className="text-sm font-semibold text-white font-mono">{currentFund.isin}</span>
+              <div className="bg-white/5 rounded-xl p-3 md:p-4 border border-white/5 flex flex-col gap-1 hidden md:flex">
+                <span className="text-[10px] md:text-xs text-gray-400 font-medium">ISIN</span>
+                <span className="text-xs md:text-sm font-semibold text-white font-mono">{currentFund.isin}</span>
               </div>
-              <div className="bg-white/5 rounded-xl p-4 border border-white/5 flex flex-col gap-1">
-                <span className="text-xs text-gray-400 font-medium">Launch Date</span>
-                <span className="text-sm font-semibold text-white">{currentFund.launchDate}</span>
+              <div className="bg-white/5 rounded-xl p-3 md:p-4 border border-white/5 flex flex-col gap-1">
+                <span className="text-[10px] md:text-xs text-gray-400 font-medium">Launch</span>
+                <span className="text-xs md:text-sm font-semibold text-white">{currentFund.launchDate}</span>
               </div>
-              <div className="bg-white/5 rounded-xl p-4 border border-white/5 flex flex-col gap-1">
-                <span className="text-xs text-gray-400 font-medium">Expense Ratio</span>
-                <span className="text-sm font-semibold text-[#10B981]">{currentFund.expenseRatio}</span>
+              <div className="bg-white/5 rounded-xl p-3 md:p-4 border border-white/5 flex flex-col gap-1">
+                <span className="text-[10px] md:text-xs text-gray-400 font-medium">Exp. Ratio</span>
+                <span className="text-xs md:text-sm font-semibold text-[#10B981]">{currentFund.expenseRatio}</span>
               </div>
             </div>
           </div>
 
           {/* Middle Section: Chart */}
-          <div className="glass-card p-6 h-[450px] flex flex-col">
+          <div className="glass-card p-4 md:p-6 h-[400px] md:h-[450px] flex flex-col">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
               <div className="flex items-center gap-2">
                 <TrendingUp size={20} className="text-[#4F8EF7]" />
@@ -354,16 +354,18 @@ export function MFAnalysis() {
           </div>
 
           {/* Bottom Section: Peer Comparison Table */}
-          <div className="glass-card p-6 overflow-hidden flex flex-col">
-            <div className="flex items-center gap-2 mb-6">
-              <Activity size={20} className="text-[#4F8EF7]" />
-              <h3 className="text-lg font-semibold text-white">Peer Comparison Ranking</h3>
-              <span className="ml-2 px-2 py-1 rounded-md bg-white/5 text-xs text-gray-400 border border-white/10">
+          <div className="glass-card p-4 md:p-6 overflow-hidden flex flex-col">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-6">
+              <div className="flex items-center gap-2">
+                <Activity size={20} className="text-[#4F8EF7]" />
+                <h3 className="text-lg font-semibold text-white">Peer Comparison</h3>
+              </div>
+              <span className="sm:ml-2 px-2 py-1 rounded-md bg-white/5 text-xs text-gray-400 border border-white/10">
                 Category: {currentFund.category}
               </span>
             </div>
             
-            <div className="overflow-x-auto custom-scrollbar -mx-6 px-6 pb-2">
+            <div className="overflow-x-auto custom-scrollbar -mx-4 md:-mx-6 px-4 md:px-6 pb-2">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
                   <tr className="border-b border-white/10 text-gray-400 text-xs uppercase tracking-wider">

@@ -1,4 +1,5 @@
 import { Outlet, NavLink, useLocation } from "react-router";
+import { useState } from "react";
 import { 
   Home, 
   Landmark, 
@@ -11,11 +12,14 @@ import {
   TrendingUp, 
   Settings,
   Bell,
-  Search
+  Search,
+  Menu,
+  X
 } from "lucide-react";
 import { Avatar, IconButton, Badge } from "@mui/material";
 
 export function Layout() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navItems = [
     { name: "Overview", path: "/", icon: <Home size={20} /> },
     { name: "Bank Accounts", path: "/banks", icon: <Landmark size={20} /> },
@@ -40,7 +44,7 @@ export function Layout() {
   return (
     <div className="flex h-screen w-full bg-[#1A1F3A] text-white font-[Inter] overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 border-r border-white/5 bg-white/[0.02] backdrop-blur-xl flex flex-col">
+      <aside className="hidden md:flex w-64 flex-shrink-0 border-r border-white/5 bg-white/[0.02] backdrop-blur-xl flex-col z-20">
         <div className="p-6 flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-[#4F8EF7] flex items-center justify-center shadow-[0_0_15px_rgba(79,142,247,0.5)]">
             <span className="font-[Manrope] font-bold text-white text-lg">F</span>
@@ -84,12 +88,71 @@ export function Layout() {
         </div>
       </aside>
 
+      {/* Mobile Sidebar Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 flex md:hidden">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}></div>
+          <aside className="relative w-64 max-w-[80%] h-full bg-[#1A1F3A] border-r border-white/5 flex flex-col shadow-2xl">
+            <div className="p-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#4F8EF7] flex items-center justify-center shadow-[0_0_15px_rgba(79,142,247,0.5)]">
+                  <span className="font-[Manrope] font-bold text-white text-lg">F</span>
+                </div>
+                <span className="font-[Manrope] text-xl font-bold tracking-tight">FinQ</span>
+              </div>
+              <button onClick={() => setMobileMenuOpen(false)} className="text-gray-400 hover:text-white">
+                <X size={24} />
+              </button>
+            </div>
+            
+            <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto custom-scrollbar">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.name}
+                  to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
+                      isActive 
+                        ? "bg-white/10 text-white font-medium shadow-[inset_0_1px_rgba(255,255,255,0.1)]" 
+                        : "text-gray-400 hover:text-white hover:bg-white/5"
+                    }`
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      <div className={`${isActive ? "text-[#4F8EF7]" : ""}`}>
+                        {item.icon}
+                      </div>
+                      <span className="text-sm">{item.name}</span>
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </nav>
+            
+            <div className="p-4 m-4 rounded-2xl bg-gradient-to-br from-[#4F8EF7]/20 to-transparent border border-[#4F8EF7]/20 relative overflow-hidden">
+              <div className="relative z-10">
+                <p className="text-xs text-[#4F8EF7] font-semibold mb-1 uppercase tracking-wider">Pro Plan</p>
+                <p className="text-sm font-medium">Upgrade to Platinum</p>
+              </div>
+              <div className="absolute right-[-10px] bottom-[-10px] opacity-20">
+                <Settings size={64} />
+              </div>
+            </div>
+          </aside>
+        </div>
+      )}
+
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0">
         {/* Sticky Header */}
-        <header className="h-20 flex-shrink-0 flex items-center justify-between px-8 border-b border-white/5 bg-[#1A1F3A]/80 backdrop-blur-xl sticky top-0 z-50">
-          <div className="flex items-center gap-4">
-            <h1 className="font-[Manrope] text-2xl font-bold">{getPageTitle()}</h1>
+        <header className="h-16 md:h-20 flex-shrink-0 flex items-center justify-between px-4 md:px-8 border-b border-white/5 bg-[#1A1F3A]/80 backdrop-blur-xl sticky top-0 z-30">
+          <div className="flex items-center gap-3 md:gap-4">
+            <button className="md:hidden text-gray-400 hover:text-white" onClick={() => setMobileMenuOpen(true)}>
+              <Menu size={24} />
+            </button>
+            <h1 className="font-[Manrope] text-xl md:text-2xl font-bold truncate max-w-[150px] sm:max-w-none">{getPageTitle()}</h1>
             <div className="hidden md:flex bg-white/5 border border-white/10 p-1 rounded-xl">
               {['7D', '30D', '90D', '1Y'].map((period) => (
                 <button 
@@ -102,8 +165,8 @@ export function Layout() {
             </div>
           </div>
           
-          <div className="flex items-center gap-5">
-            <div className="relative group cursor-pointer">
+          <div className="flex items-center gap-2 md:gap-5">
+            <div className="relative group cursor-pointer hidden sm:block">
               <Search className="text-gray-400 group-hover:text-white transition-colors" size={20} />
             </div>
             <IconButton size="small" className="text-gray-400 hover:text-white transition-colors">
@@ -111,21 +174,21 @@ export function Layout() {
                 <Bell size={20} />
               </Badge>
             </IconButton>
-            <div className="h-8 w-[1px] bg-white/10 mx-1"></div>
+            <div className="h-8 w-[1px] bg-white/10 mx-0.5 md:mx-1 hidden sm:block"></div>
             <div className="flex items-center gap-3 cursor-pointer">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-medium text-white leading-none">Alex Morgan</p>
                 <p className="text-xs text-gray-400 mt-1">alex@premium.io</p>
               </div>
               <Avatar src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150&h=150" 
-                className="border border-white/20 shadow-md"
+                className="border border-white/20 shadow-md w-8 h-8 md:w-10 md:h-10"
               />
             </div>
           </div>
         </header>
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar relative">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar relative">
           {/* Subtle background glow effect */}
           <div className="fixed top-20 right-[10%] w-[500px] h-[500px] bg-[#4F8EF7]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
           <div className="fixed bottom-[-100px] left-[20%] w-[400px] h-[400px] bg-[#10B981]/5 rounded-full blur-[100px] pointer-events-none z-0"></div>

@@ -127,7 +127,7 @@ export function Operations() {
           <h2 className="text-xl font-bold text-white">Background Operations</h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {jobTypes.map((job) => {
             const isRunning = activeJobId === job.id && progress < 100;
             
@@ -197,9 +197,9 @@ export function Operations() {
       {/* Middle Section: Active Job Tracker */}
       {activeJob && (
         <div className="glass-card overflow-hidden flex flex-col border border-[#4F8EF7]/30 shadow-[0_4px_30px_rgba(79,142,247,0.1)]">
-          <div className="p-6 bg-[#1A1F3A]/80 border-b border-white/5">
+          <div className="p-4 md:p-6 bg-[#1A1F3A]/80 border-b border-white/5">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 md:gap-4">
                 <div className="w-10 h-10 rounded-full bg-[#4F8EF7]/20 flex items-center justify-center text-[#4F8EF7]">
                   {progress < 100 ? <Loader2 size={20} className="animate-spin" /> : <CheckCircle2 size={20} />}
                 </div>
@@ -246,8 +246,8 @@ export function Operations() {
             </button>
             
             {logsExpanded && (
-              <div className="p-6 pt-2">
-                <pre className="w-full h-64 overflow-y-auto custom-scrollbar bg-black/60 rounded-xl p-4 border border-white/5 font-mono text-[13px] leading-relaxed text-[#10B981] shadow-inner">
+              <div className="p-4 md:p-6 pt-2">
+                <pre className="w-full h-48 md:h-64 overflow-y-auto custom-scrollbar bg-black/60 rounded-xl p-3 md:p-4 border border-white/5 font-mono text-[11px] md:text-[13px] leading-relaxed text-[#10B981] shadow-inner">
                   {logs.map((log, index) => (
                     <div key={index} className="flex gap-4 hover:bg-white/5 px-2 py-0.5 rounded">
                       <span className="text-gray-500 select-none">
@@ -278,10 +278,10 @@ export function Operations() {
       )}
 
       {/* Bottom Section: Recent Jobs Table */}
-      <div className="glass-card p-6 overflow-hidden flex flex-col mt-4">
+      <div className="glass-card p-4 md:p-6 overflow-hidden flex flex-col mt-4">
         <h3 className="text-lg font-bold text-white mb-6">Recent Jobs</h3>
         
-        <div className="overflow-x-auto custom-scrollbar -mx-6 px-6 pb-2">
+        <div className="overflow-x-auto custom-scrollbar -mx-4 md:-mx-6 px-4 md:px-6 pb-2">
           <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
               <tr className="border-b border-white/10 text-gray-400 text-xs uppercase tracking-wider">
